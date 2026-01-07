@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  fun-asr-api:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile
+    image: fun-asr-api:latest
+    container_name: fun-asr-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/models
+    environment:
+      - MODEL_DIR=/models/Fun-ASR-Nano-2512
+      - DEVICE=cuda:0
+      - MAX_CONCURRENT_REQUESTS=10
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: always

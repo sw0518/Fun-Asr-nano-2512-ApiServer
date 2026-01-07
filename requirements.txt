@@ -1,0 +1,10 @@
+fastapi>=0.100.0
+uvicorn[standard]>=0.20.0
+funasr>=1.0.0
+modelscope
+torch
+torchaudio
+python-multipart
+websockets
+numpy
+pydantic-settings
