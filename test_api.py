@@ -5,7 +5,7 @@ import json
 import argparse
 
 def test_rest_api(file_path):
-    url = "http://localhost:8000/v1/audio/transcriptions"
+    url = "http://localhost:8800/v1/audio/transcriptions"
     print(f"Testing REST API with {file_path}...")
     with open(file_path, "rb") as f:
         files = {"file": f}
@@ -15,7 +15,7 @@ def test_rest_api(file_path):
         print("Response:", response.json())
 
 async def test_websocket_api(file_path):
-    uri = "ws://localhost:8000/v1/audio/stream"
+    uri = "ws://localhost:8800/v1/audio/stream"
     print(f"Testing WebSocket API with {file_path}...")
     async with websockets.connect(uri) as websocket:
         # Read file and send in chunks

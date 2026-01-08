@@ -1,6 +1,6 @@
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException, WebSocket, WebSocketDisconnect
 from typing import Optional
-from app.core.model import model_manager
+from app.core.model_load import model_manager
 from app.utils.audio import save_upload_file_tmp, cleanup_tmp_file
 import shutil
 import os
