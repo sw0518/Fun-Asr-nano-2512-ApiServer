@@ -1,4 +1,4 @@
-FROM pytorch/pytorch:2.1.0-cuda12.1-cudnn8-runtime
+FROM swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/pytorch/pytorch:2.9.0-cuda13.0-cudnn9-runtime
 
 WORKDIR /workspace
 
@@ -12,7 +12,9 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 
 # Install python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+#RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+
 
 # Copy app code
 COPY . .

@@ -8,11 +8,11 @@ services:
     image: fun-asr-api:latest
     container_name: fun-asr-api
     ports:
-      - "8000:8000"
+      - "8800:8000"
     volumes:
-      - ./models:/models
+      - /media/saixunda/DataDisk/xiaozhi-server/funasr_models:/models
     environment:
-      - MODEL_DIR=/models/Fun-ASR-Nano-2512
+      - MODEL_DIR=/models/Fun-ASR-MLT-Nano-2512
       - DEVICE=cuda:0
       - MAX_CONCURRENT_REQUESTS=10
     deploy:
