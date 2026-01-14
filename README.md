@@ -27,7 +27,13 @@ git lfs install
 # git clone <repo-url> models/Fun-ASR-Nano-2512
 ```
 
-### 2. 启动服务（Docker Compose）
+### 2. 配置模型
+在 `docker-compose.yml` 或 `.env` 中使用 `MODELS` 环境变量配置模型列表（JSON 格式）：
+```bash
+MODELS='{"fun-asr-nano-2512": "/models/Fun-ASR-Nano-2512"}'
+```
+
+### 3. 启动服务（Docker Compose）
 
 ```bash
 docker-compose up -d --build

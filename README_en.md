@@ -28,7 +28,10 @@ This project provides an OpenAI-compatible Speech-to-Text API and a WebSocket st
 
 2.  **Configure Environment**:
     The `docker-compose.yml` maps `./models` on host to `/models` in container.
-    Ensure `MODEL_DIR` in `docker-compose.yml` points to the correct path inside container.
+    Use `MODELS` environment variable to configure multiple models (JSON format):
+    ```bash
+    MODELS='{"fun-asr-nano-2512": "/models/Fun-ASR-Nano-2512"}'
+    ```
 
 ## Deployment
 

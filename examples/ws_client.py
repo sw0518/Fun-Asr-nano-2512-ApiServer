@@ -21,5 +21,14 @@ if __name__ == "__main__":
     parser.add_argument("--url", type=str, default="ws://localhost:8000/v1/audio/stream")
     parser.add_argument("--file", type=str, required=True)
     parser.add_argument("--chunk", type=int, default=10240)
+    parser.add_argument("--model", type=str, default=None)
     args = parser.parse_args()
-    asyncio.run(main(args.url, args.file, args.chunk))
+    
+    url = args.url
+    if args.model:
+        if "?" in url:
+            url += f"&model={args.model}"
+        else:
+            url += f"?model={args.model}"
+            
+    asyncio.run(main(url, args.file, args.chunk))

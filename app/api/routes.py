@@ -12,7 +12,7 @@ router = APIRouter()
 @router.post("/v1/audio/transcriptions")
 async def transcribe_audio(
     file: UploadFile = File(...),
-    model: str = Form("fun-asr-nano-2512"),
+    model: Optional[str] = Form(None),
     language: Optional[str] = Form("auto"),
     response_format: Optional[str] = Form("json"),
     prompt: Optional[str] = Form(None),
@@ -25,7 +25,7 @@ async def transcribe_audio(
     
     try:
         # Transcribe
-        text = await model_manager.transcribe(tmp_path, language=language)
+        text = await model_manager.transcribe(tmp_path, language=language, model_name=model)
         
         if response_format == "text":
             return text
@@ -46,7 +46,7 @@ async def transcribe_audio(
         cleanup_tmp_file(tmp_path)
 
 @router.websocket("/v1/audio/stream")
-async def websocket_endpoint(websocket: WebSocket):
+async def websocket_endpoint(websocket: WebSocket, model: Optional[str] = None):
     await websocket.accept()
     cache = {}
     
@@ -57,7 +57,7 @@ async def websocket_endpoint(websocket: WebSocket):
             if "bytes" in message:
                 data = message["bytes"]
                 # Process audio chunk
-                result = await model_manager.transcribe_stream(data, cache=cache, is_final=False)
+                result = await model_manager.transcribe_stream(data, cache=cache, is_final=False, model_name=model)
                 
                 # If result has text, send it
                 if isinstance(result, dict) and "text" in result:
@@ -70,7 +70,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 # Check for "stop" or "eos" command
                 if text_data == "EOS":
                      # Finalize
-                    result = await model_manager.transcribe_stream(b"", cache=cache, is_final=True)
+                    result = await model_manager.transcribe_stream(b"", cache=cache, is_final=True, model_name=model)
                     if isinstance(result, dict) and "text" in result:
                         await websocket.send_text(json.dumps({"text": result["text"], "is_final": True}))
                     cache = {} # Reset cache

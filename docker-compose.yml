@@ -11,10 +11,10 @@ services:
       - "8800:8000"
     volumes:
       - /media/saixunda/DataDisk/xiaozhi-server/funasr_models:/models
-    environment:
-      - MODEL_DIR=/models/Fun-ASR-MLT-Nano-2512
-      - DEVICE=cuda:0
-      - MAX_CONCURRENT_REQUESTS=10
+    # environment:
+    #   - MODELS={"fun-asr-nano-2512": "/models/Fun-ASR-MLT-Nano-2512"}
+    #   - DEVICE=cuda:0
+    #   - MAX_CONCURRENT_REQUESTS=10
     deploy:
       resources:
         reservations:
