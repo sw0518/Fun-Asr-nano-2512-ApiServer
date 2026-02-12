@@ -1,20 +1,20 @@
 version: '3.8'
 
 services:
-  fun-asr-api:
+  fun-asr-api-mlt:
     build:
       context: .
       dockerfile: deploy/Dockerfile
-    image: fun-asr-api:latest
-    container_name: fun-asr-api
+    image: fun-asr-api-mlt:latest
+    container_name: fun-asr-api-mlt
     ports:
       - "8800:8000"
     volumes:
       - /media/saixunda/DataDisk/xiaozhi-server/funasr_models:/models
-    # environment:
-    #   - MODELS={"fun-asr-nano-2512": "/models/Fun-ASR-MLT-Nano-2512"}
-    #   - DEVICE=cuda:0
-    #   - MAX_CONCURRENT_REQUESTS=10
+    environment:
+      MODELS: '{"fun-asr-mlt-nano-2512": "/models/Fun-ASR-MLT-Nano-2512"}'
+      DEVICE: 'cuda:0'
+      MAX_CONCURRENT_REQUESTS: 20
     deploy:
       resources:
         reservations:
@@ -23,3 +23,27 @@ services:
               count: 1
               capabilities: [gpu]
     restart: always
+
+  fun-asr-api:
+    image: fun-asr-api-mlt:latest
+    container_name: fun-asr-api
+    ports:
+      - "8801:8000"
+    volumes:
+      - /media/saixunda/DataDisk/xiaozhi-server/funasr_models:/models
+    environment:
+      MODELS: '{"fun-asr-nano-2512": "/models/Fun-ASR-Nano-2512"}'
+      DEVICE: 'cuda:0'
+      MAX_CONCURRENT_REQUESTS: 20
+    depends_on:
+      - fun-asr-api-mlt
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: always
+
+

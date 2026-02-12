@@ -36,8 +36,8 @@ class ModelManager:
                     device=settings.DEVICE,
                     remote_code=f"{CORE_DIR}/model.py",
                     batch_size=8,
-                    # vad_model="fsmn-vad", 
-                    # vad_kwargs={"max_single_segment_time": 30000},
+                    vad_model="fsmn-vad",
+                    vad_kwargs={"max_single_segment_time": 30000},
                 )
                 self.models[name] = model_instance
                 print(f"Model '{name}' loaded successfully.")
